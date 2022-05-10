@@ -4,3 +4,8 @@
 // que é um arquivo que guarda as dependências do projeto e trouxe consigo a pasta node_modules
 //4° criado o server.js
 //5° criado o app.js
+//6° criado a pasta routs para fazer as rotas
+// instalado nodemon(para fazer o server restart automaticamente)(npm install --save-dev nodemon)
+// instalado morgan para fazer o log das requisições(npm install --save morgan)
+// criar tratamento de erro
+// instalado o body-parser(para fazer a requisição do body)(npm install --save body-parser)
