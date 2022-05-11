@@ -5,7 +5,7 @@ const bodyParser = require('body-parser')
 
 const routeProducts = require('./routes/product') 
 
-app.use(morgan('dev')) //para fazer o log das requisições
+app.use(morgan('dev')) //para fazer o log das requisicoes
 app.use(bodyParser.urlencoded ({ extended: false })) //para fazer apenas requisições com dados simples  
 app.use(bodyParser.json()) //aceita apenas json
 
