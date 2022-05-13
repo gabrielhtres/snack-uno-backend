@@ -1,5 +1,6 @@
 const knex = require('knex') // query builder para conectar com o banco de dados postgres
 
+// dados para conexao com o banco de dados
 module.exports = knex({
     client: 'postgres',
     connection: {
