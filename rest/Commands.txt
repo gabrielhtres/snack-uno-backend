@@ -1,7 +1,10 @@
 // Cria um container com o postgres (nao mais necessario)
 docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d -p 5432:5432 postgres
 
-// roda o script migrate
+// sobe o servidor. Primeiro rode esse comando
+docker-compose up
+
+// roda o script migrate. E depois roda esse
 npm run migrate
 
 // salva os arquivos para envio
