@@ -1,4 +1,4 @@
-// Cria um container com o postgres
+// Cria um container com o postgres (nao mais necessario)
 docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d -p 5432:5432 postgres
 
 // roda o script migrate
