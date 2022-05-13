@@ -1,0 +1,13 @@
+// Cria um container com o postgres
+docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d -p 5432:5432 postgres
+
+// roda o script migrate
+npm run migrate
+
+// salva os arquivos para envio
+git push
+
+// ve os arquivos para envio
+git status
+
+
