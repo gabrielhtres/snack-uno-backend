@@ -4,21 +4,21 @@ const router = express.Router() //router é um middleware que permite que eu cri
 router.get('/', (req, res, next) => {
     res.status(200).send({
         message: 'Get request ok!'
-        })
+    })
 })
 
 router.post('/', (req, res, next) => {
     const product = {
-        nome: req.body.nome,
-        preco: req.body.preco
+        name: req.body.name,
+        price: req.body.price
     }
     res.status(201).send({
         message: 'Produto adicionado com sucesso!',
     })
 })
 
-router.get('/:id_product', (req, res, next) => {
-    const id = req.params.id_product
+router.get('/:id', (req, res, next) => {
+    const id = req.params.id
     res.status(200).send({
         message: 'Get com id ok!',
         id: id
