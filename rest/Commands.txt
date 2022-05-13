@@ -7,7 +7,7 @@ docker-compose up
 // roda o script migrate. E depois roda esse
 npm run migrate
 
-// salva os arquivos para envio
+// salva os arquivos para envio 
 git push
 
 // ve os arquivos para envio
