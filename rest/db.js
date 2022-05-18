@@ -13,7 +13,6 @@ module.exports = { soma, client, getAllProducts, sendProducts }
 async function soma(a, b) {
     return await a + b
 }
-
 async function getAllProducts() {
     allProducts = []
     try {
