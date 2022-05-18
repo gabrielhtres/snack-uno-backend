@@ -1,8 +1,9 @@
 const console = require('console')
 const express = require('express')
-const router = express.Router() //router é um middleware que permite que eu crie rotas
+const router = express.Router() //router 
 const {sendProducts, getAllProducts} = require('../db')
 
+// Pronto
 router.get('/', (req, res, next) => {
     (async () => {
         req = await getAllProducts()
