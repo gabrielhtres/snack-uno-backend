@@ -13,7 +13,7 @@ app.use(bodyParser.json()) //aceita apenas json
 app.use('/products', routeProducts) //rota para produtos
 app.use('/requests', routeRequest) //rota para acessar o arquivo product.js
 
-app.use((req, res, next) => {//caso nenhuma rota seja estabelecida
+app.use((req, res, next) => { //caso nenhuma rota seja estabelecida
     const error = new Error('Not found')
     error.status = 404
     next(error)
