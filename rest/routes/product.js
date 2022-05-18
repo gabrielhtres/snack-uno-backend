@@ -1,39 +1,30 @@
 const express = require('express')
 const router = express.Router() //router é um middleware que permite que eu crie rotas
+const db = require('../db')
 
 router.get('/', (req, res, next) => {
     res.status(200).send({
-        message: 'Get request ok!'
+        message: 'Get product ok!'
+    })
+})
+
+router.get('/:id_product', (req, res, next) => {
+    const id = req.params.id_product
+    res.status(200).send({
+        message: 'Get com id product ok!',
+        id_product: id
     })
 })
 
 router.post('/', (req, res, next) => {
-    const product = {
-        name: req.body.name,
-        price: req.body.price
-    }
     res.status(201).send({
-        message: 'Produto adicionado com sucesso!',
-    })
-})
-
-router.get('/:id', (req, res, next) => {
-    const id = req.params.id
-    res.status(200).send({
-        message: 'Get com id ok!',
-        id: id
-    })
-})
-
-router.patch('/', (req, res, next) => {
-    res.status(201).send({
-        message: 'Patch request ok!'
+        message: 'Post product ok!',
     })
 })
 
 router.delete('/', (req, res, next ) => {
     res.status(201).send({
-        message: 'Delete request ok!'
+        message: 'Delete product ok!'
     })
 })
 

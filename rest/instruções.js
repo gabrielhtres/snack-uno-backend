@@ -9,3 +9,7 @@
 // instalado morgan para fazer o log das requisições(npm install --save morgan)
 // criar tratamento de erro
 // instalado o body-parser(para fazer a requisição do body)(npm install --save body-parser)
+// criado o docker e seu container
+// criado o banco de dados (postgres) (npm install --save postgresql)
+// criado o db.js e configurado com variaveis de ambiente que são passadas pelo nodemon.json
+// feito a conexão da API com o banco de dados
