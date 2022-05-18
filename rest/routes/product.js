@@ -1,25 +1,33 @@
+const console = require('console')
 const express = require('express')
 const router = express.Router() //router é um middleware que permite que eu crie rotas
-const db = require('../db')
+const {sendProducts, getAllProducts} = require('../db')
 
 router.get('/', (req, res, next) => {
-    res.status(200).send({
-        message: 'Get product ok!'
-    })
+    (async () => {
+        req = await getAllProducts()
+        res.status(200).send({
+            message: req
+        })
+    })()
 })
 
 router.get('/:id_product', (req, res, next) => {
-    const id = req.params.id_product
-    res.status(200).send({
-        message: 'Get com id product ok!',
-        id_product: id
-    })
+    (async () => {
+        req = await getAllProducts()
+        res.status(200).send({
+            message: req
+        })
+    })()
 })
 
 router.post('/', (req, res, next) => {
-    res.status(201).send({
-        message: 'Post product ok!',
-    })
+    (async () => {
+        req = await sendProducts("Galinha preta", "14.00")
+        res.status(200).send({
+            message: req
+        })
+    })()
 })
 
 router.delete('/', (req, res, next ) => {
