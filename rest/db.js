@@ -8,11 +8,9 @@ const client = new Client({
     host: 'localhost',
     port: 5432
 })
-module.exports = { soma, client, getAllProducts, sendProducts }
+module.exports = { client, getAllProducts, insertProduct, deleteProducts }
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-async function soma(a, b) {
-    return await a + b
-}
+
 async function getAllProducts() {
     allProducts = []
     try {
@@ -27,23 +25,27 @@ async function getAllProducts() {
         console.log(error)
     }
     finally{
+        console.log('Connection closed!')
         client.end()
     }
     return await allProducts
 }
 
+// getAllProducts()
 // // /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-async function sendProducts(name, price) {
+async function insertProduct(name, price, description, image, stock) {
     allProducts = []
     try {
         console.log('Starting connection with database...')
         await client.connect()
         console.log('Connection sucessful!')
-        queryy = "INSERT INTO products(name, price, description, image, stock) VALUES ('Fanta', 2.50, 'Refrigerante', 'fanta.jpg', 10)"
-        await client.query(queryy)
+        data = `INSERT INTO products(name, price, description, image, stock) VALUES ('${name}', ${price}, '${description}', '${image}', ${stock})`
+        // await client.query(data)
         console.table('Dados inseridos na tabela products')
+        await knex.Client.insert(data)
         const res = await client.query("SELECT * FROM products")
+        allProducts = res.rows
         console.log(res.rows)
     }catch (error) {
         console.log(error)
@@ -54,26 +56,28 @@ async function sendProducts(name, price) {
     return await allProducts
 }
 
-
 // ///////////////////////////////////////////////////////////////////////////////////////////
 
-// async function deleteProducts(id_product) {
-//         try {
-//             console.log('Iniciando conexão com o banco de dados...')
-//             await client.connect()
-//             console.log('Conectado com sucesso!')
-//             await client.query("DELETE FROM products where id_product = '"+id_product+"';")
-//             console.table('Dados removidos da tabela products')
-//             const res = await client.query("SELECT * FROM products")
-//             console.log(res.rows)
-//         }catch (error) {
-//             console.log(error)
-//         }
-//         finally{
-//             client.end()
-//         }   
-//     }
+async function deleteProducts(id_product) {
+    allProducts = []
+    try {
+        console.log('Starting connection with database...')
+        await client.connect()
+        queryC = `DELETE FROM products WHERE id_product = ${id_product}`
+        console.log('Connection sucessful!')
+        await client.query(queryC)
+        console.table('Data deleted from products')
+        const res = await client.query("SELECT * FROM products")
+        allProducts = res.rows
+        console.log(res.rows)
+    }catch (error) {
+        console.log(error)
+    }
+    finally{
+        client.end()
+    }   
+    return await allProducts
+}
     
-//     deleteProducts(4)
     
 //////////x /////////////////////////////////////////////////////////////////////////////////
