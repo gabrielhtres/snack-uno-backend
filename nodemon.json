@@ -1,0 +1,10 @@
+{
+    "env":{
+        "DB_USER": "postgres",
+        "DB_PASSWORD": "root",
+        "DB_DATABASE": "SnackUnoDB",
+        "DB_HOST": "localhost",
+        "DB_PORT": 5432
+    }
+}
+

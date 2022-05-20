@@ -1,0 +1,67 @@
+/*DOCKER
+
+sobe o servidor (caso não tenha imagem ele cria)
+docker-compose up -d --force-recreate
+
+roda o servidor
+docker-compose up
+
+verifica se o container doi criado
+docker ps
+
+deleta o container
+docker kill <nome do container>
+
+*/
+
+roda o script migrate. E depois roda esse
+npm run migrate
+
+/* GIT
+
+salva os arquivos para envio 
+git push
+
+ve os arquivos para envio
+git status
+
+add todos os arquivos
+git add * 
+
+git commit -m "MSG"
+
+git push origin main
+
+git config --global user.email "you@example.com"
+git config --global user.name "Your Name" */
+
+create table products(
+	id_product serial primary key not null,
+	name varchar(45) not null,
+	price float not null,
+	description varchar(255) not null,
+	image varchar(255) not null,
+	stock int not null
+);
+
+create table requests(
+	id_request serial primary key not null,
+	totalPrice float not null,
+	data timestamp not null
+);
+
+create table requestProduct(
+	id_requestProduct serial primary key not null,
+	id_product serial not null,
+	id_request serial not null,
+	foreign key (id_product) references products (id_product),
+	foreign key (id_request) references requests (id_request),
+	quantity integer not null,
+	price float not null
+);
+
+drop table products;
+drop table requests;
+
+INSERT INTO products(name, price, description, image, stock) VALUES ('Coca-Cola', 2.50, 'Refrigerante', 'coca-cola.jpg', 10);
+INSERT INTO products(name, price, description, image, stock) VALUES ('Fanta', 2.50, 'Refrigerante', 'fanta.jpg', 10);
