@@ -1,83 +1,98 @@
 const { query } = require('express');
 const { default: knex } = require('knex');
-const Client = require('pg').Client
-const client = new Client({
-    user: 'postgres',
-    password: '123',
-    database: 'SnackUnoDB',
-    host: 'localhost',
-    port: 5432
-})
-module.exports = { client, getAllProducts, insertProduct, deleteProducts }
+const Client = require('pg')
+const dbconfig = require ('./nodemon.json')
+
+let res = ''
+
+const pool = new Client.Pool(
+    { user: dbconfig.env.DB_USER,
+    password: dbconfig.env.DB_PASSWORD,
+    database: dbconfig.env.DB_DATABASE,
+    host: dbconfig.env.DB_HOST,
+    port: dbconfig.env.DB_PORT}
+)
+
+// const client = new Client.Client({
+//     user: dbconfig.env.DB_USER,
+//     password: dbconfig.env.DB_PASSWORD,
+//     database: dbconfig.env.DB_DATABASE,
+//     host: dbconfig.env.DB_HOST,
+//     port: dbconfig.env.DB_PORT
+// })
+
+module.exports = {getAllProducts, insertProduct, deleteProducts, getProductid}
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 async function getAllProducts() {
-    allProducts = []
     try {
         console.log('Starting connection with database...')
-        await client.connect()
+        await pool.connect()
         console.log('Connection sucessful!')
-        var res = await client.query("SELECT * FROM products")
-        allProducts = res.rows
+        res = await pool.query("SELECT * FROM products")
         console.table(res.rows)
-        
     }catch (error) {
         console.log(error)
     }
     finally{
-        console.log('Connection closed!')
-        client.end()
+        return await res.rows
     }
-    return await allProducts
 }
 
-// getAllProducts()
-// // /////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-async function insertProduct(name, price, description, image, stock) {
-    allProducts = []
+async function getProductid(id_product) {
     try {
         console.log('Starting connection with database...')
-        await client.connect()
+        await pool.connect()
         console.log('Connection sucessful!')
-        data = `INSERT INTO products(name, price, description, image, stock) VALUES ('${name}', ${price}, '${description}', '${image}', ${stock})`
-        // await client.query(data)
-        console.table('Dados inseridos na tabela products')
-        await knex.Client.insert(data)
-        const res = await client.query("SELECT * FROM products")
-        allProducts = res.rows
-        console.log(res.rows)
+        res = await pool.query(`SELECT * FROM products where id_product = ${id_product}`)
+        console.table(res.rows) 
     }catch (error) {
         console.log(error)
     }
     finally{
-        client.end()
+        return await res.rows
     }
-    return await allProducts
+}
+
+// /////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+async function insertProduct(name, price, description, image, stock) {
+    try {
+        console.log('Starting connection with database...')
+        await pool.connect()
+        console.log('Connection sucessful!')
+        data = `INSERT INTO products(name, price, description, image, stock) VALUES ('${name}', ${price}, '${description}', '${image}', ${stock})`
+        pool.query(data)
+        console.table('Dados inseridos na tabela products')
+        console.log(getAllProducts())
+    }catch (error) {
+        console.log(error)
+    }
+    finally{
+        return await res.rows
+    }
 }
 
 // ///////////////////////////////////////////////////////////////////////////////////////////
 
 async function deleteProducts(id_product) {
-    allProducts = []
     try {
         console.log('Starting connection with database...')
-        await client.connect()
-        queryC = `DELETE FROM products WHERE id_product = ${id_product}`
+        await pool.connect()
+        data = `DELETE FROM products WHERE id_product = ${id_product}`
         console.log('Connection sucessful!')
-        await client.query(queryC)
+        await pool.query(data)
         console.table('Data deleted from products')
-        const res = await client.query("SELECT * FROM products")
-        allProducts = res.rows
-        console.log(res.rows)
+        console.log(getAllProducts())
     }catch (error) {
         console.log(error)
     }
     finally{
-        client.end()
+        return await res.rows
     }   
-    return await allProducts
 }
-    
-    
-//////////x /////////////////////////////////////////////////////////////////////////////////
+      
+///////////////////////////////////////////////////////////////////////////////////////////
