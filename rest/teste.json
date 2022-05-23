@@ -1,0 +1,7 @@
+{
+    "name": "Coca-Cola",
+    "price": 4,
+    "description": "Coca-Cola eh uma bebida gaseificada fabricada pela empresa colombiana Nestlé, que produz e distribui em todo o mundo",
+    "image": "https://picsum.photos/id/1000/200/300",
+    "stock": 30
+}

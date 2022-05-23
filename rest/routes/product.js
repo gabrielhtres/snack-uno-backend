@@ -13,9 +13,10 @@ router.get('/', (req, res, next) => {
     })()
 })
 
+// Pronto
 router.get('/:id_product', (req, res, next) => {
     (async () => {
-        req = await getProductid(3)
+        req = await getProductid(req.params.id_product)
         res.status(200).send({
             message: req
         })
@@ -23,11 +24,10 @@ router.get('/:id_product', (req, res, next) => {
 })
 
 
-
-// Pronto
 router.post('/', (req, res, next) => {
+
     (async () => {
-        req = await insertProduct("pizza", 10, "pizza de calabresa", "https://www.pizzahut.com.br/assets/img/pizzas/pizza-calabresa.png", 10)
+        req = await insertProduct(req.body)
         res.status(200).send({
             message: req
         })
@@ -35,12 +35,11 @@ router.post('/', (req, res, next) => {
 })
 
 // Pronto
-router.delete('/', (req, res, next ) => {
+router.delete('/:id_product', (req, res, next ) => {
     (async () => {
-        req = await deleteProducts(3)
+        req = await deleteProducts(req.params.id_product)
         res.status(200).send({
-            message: req,
-            message: 'Produto deletado com sucesso!'
+            message: 'Produto deletado com sucesso'
         })
     })()
 })

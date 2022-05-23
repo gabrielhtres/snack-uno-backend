@@ -13,14 +13,6 @@ const pool = new Client.Pool(
     port: dbconfig.env.DB_PORT}
 )
 
-// const client = new Client.Client({
-//     user: dbconfig.env.DB_USER,
-//     password: dbconfig.env.DB_PASSWORD,
-//     database: dbconfig.env.DB_DATABASE,
-//     host: dbconfig.env.DB_HOST,
-//     port: dbconfig.env.DB_PORT
-// })
-
 module.exports = {getAllProducts, insertProduct, deleteProducts, getProductid}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,24 +51,26 @@ async function getProductid(id_product) {
 
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-async function insertProduct(name, price, description, image, stock) {
+async function insertProduct(json) {
     try {
         console.log('Starting connection with database...')
         await pool.connect()
         console.log('Connection sucessful!')
-        data = `INSERT INTO products(name, price, description, image, stock) VALUES ('${name}', ${price}, '${description}', '${image}', ${stock})`
+        data = `INSERT INTO products (name, price, description, image, id_category) VALUES (
+            '${json.name}', '${json.price}', '${json.description}', '${json.image}', '${json.id_category}'
+        )`
         pool.query(data)
         console.table('Dados inseridos na tabela products')
         console.log(getAllProducts())
     }catch (error) {
         console.log(error)
     }
-    finally{
+    finally{  
         return await res.rows
-    }
+    } 
 }
 
-// ///////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
 
 async function deleteProducts(id_product) {
     try {
