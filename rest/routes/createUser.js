@@ -4,9 +4,10 @@ const {createUser} = require('../db')
 
 router.post('/register', (req, res, next) => {
     (async () => {
+        console.log(req.body)
         req = await createUser(req.body)
         res.status(200).send({
-            message: 'Usuário criado com sucesso'
+            message: 'Usuario criado com sucesso'
         })
     })()
 })
