@@ -60,10 +60,10 @@ create table requestProduct(
 	price float not null
 );
 
-create table userr(
+create table users(
 	id_user serial primary key not null,
-	email varchar(45),
-	pass varchar(45)
+	email varchar(40),
+	pass varchar(100)
 );
 
 drop table products;
