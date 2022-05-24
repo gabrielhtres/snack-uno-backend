@@ -2,18 +2,21 @@ const { query } = require('express');
 const { default: knex } = require('knex');
 const Client = require('pg')
 const dbconfig = require ('./nodemon.json')
+const bcrypt = require('bcrypt')
 
 let res = ''
 
 const pool = new Client.Pool(
-    { user: dbconfig.env.DB_USER,
+    { 
+    user: dbconfig.env.DB_USER,
     password: dbconfig.env.DB_PASSWORD,
     database: dbconfig.env.DB_DATABASE,
     host: dbconfig.env.DB_HOST,
-    port: dbconfig.env.DB_PORT}
+    port: dbconfig.env.DB_PORT
+    }
 )
 
-module.exports = {getAllProducts, insertProduct, deleteProducts, getProductid}
+module.exports = {getAllProducts, insertProduct, deleteProducts, getProductid, createUser}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -88,4 +91,29 @@ async function deleteProducts(id_product) {
     }   
 }
       
+async function createUser(json) {
+    try {
+        console.log('Starting connection with database...')
+        await pool.connect()
+        console.log('Connection sucessful!')
+        bcrypt.hash('${json.pass}', 10, async (err, hash) => {
+            if (err) {
+                console.log(err)
+            }
+            else {
+                data = `INSERT INTO users (email, pass) VALUES (
+                    '${json.email}', '${hash}'
+                )`
+                await pool.query(data)
+                console.table('Dados inseridos na tabela users')
+                console.log(createUser())
+            }
+        })
+    }catch (error) {
+        console.log(error)
+    }
+    finally{
+        return await res.rows
+    }
+}
 ///////////////////////////////////////////////////////////////////////////////////////////
