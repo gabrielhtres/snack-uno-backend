@@ -38,7 +38,7 @@ async function getProductid(id_product) {
         console.log('Starting connection with database...')
         await pool.connect()
         console.log('Connection sucessful!')
-        res = await pool.query(`SELECT * FROM products where id_product = ${id_product}`)
+        res = await pool.query(`SELECT * FROM products WHERE id_product = $1`, [id_product])
         console.table(res.rows) 
     }catch (error) {
         console.log(error)
@@ -75,9 +75,8 @@ async function deleteProducts(id_product) {
     try {
         console.log('Starting connection with database...')
         await pool.connect()
-        data = `DELETE FROM products WHERE id_product = ${id_product}`
         console.log('Connection sucessful!')
-        await pool.query(data)
+        await pool.query(`DELETE FROM products WHERE id_product = $1`, [id_product])
         console.table('Data deleted from products')
         console.log(getAllProducts())
     }catch (error) {
