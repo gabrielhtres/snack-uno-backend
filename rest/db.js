@@ -93,7 +93,6 @@ async function deleteProducts(id_product) {
 async function createUser(user) {
     try {
         if (user == null) {
-            console.log('Cade o json ??????????')
             return
         }
         console.log('Starting connection with database...')
@@ -112,5 +111,9 @@ async function createUser(user) {
     finally{
         return await res.rows
     }
+}
+
+async function loginUser(user) {
+    
 }
 ///////////////////////////////////////////////////////////////////////////////////////////

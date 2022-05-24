@@ -4,14 +4,14 @@ const morgan = require('morgan')
 const bodyParser = require('body-parser')
 
 const routeProducts = require('./routes/products') 
-const routeCreateUser = require('./routes/createUser') 
+const routeCreateUser = require('./routes/user') 
 
 app.use(morgan('dev')) //para fazer o log das requisicoes
 app.use(bodyParser.urlencoded ({ extended: false })) //para fazer apenas requisicoes com dados simples  
 app.use(bodyParser.json()) //aceita apenas json
 
 app.use('/products', routeProducts) //rota para produtos
-app.use('/createUser', routeCreateUser) //rota para criar usuario
+app.use('/user', routeCreateUser) //rota para criar usuario
 
 app.use((req, res, next) => { //caso nenhuma rota seja estabelecida
     const error = new Error('Not found')
