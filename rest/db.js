@@ -90,24 +90,18 @@ async function deleteProducts(id_product) {
     }   
 }
       
-async function createUser(json) {
+async function createUser(user) {
     try {
         console.log('Starting connection with database...')
         await pool.connect()
         console.log('Connection sucessful!')
-        bcrypt.hash('${json.pass}', 10, async (err, hash) => {
+        bcrypt.hash(user.password, 10, async (err, hash) => {
             if (err) {
-                console.log(err)
+                return console.log(err)
             }
-            else {
-                data = `INSERT INTO users (email, pass) VALUES (
-                    '${json.email}', '${hash}'
-                )`
-                await pool.query(data)
-                console.table('Dados inseridos na tabela users')
-                console.log(createUser())
-            }
-        })
+            await pool.query(`INSERT INTO users (email, pass) VALUES ('${user.email}', '${hash}')`)
+            console.table('Dados inseridos na tabela users')
+        });
     }catch (error) {
         console.log(error)
     }
