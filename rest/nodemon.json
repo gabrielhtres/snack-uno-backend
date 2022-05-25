@@ -4,6 +4,8 @@
         "DB_PASSWORD": "root",
         "DB_DATABASE": "SnackUnoDB",
         "DB_HOST": "localhost",
-        "DB_PORT": 5432
+        "DB_PORT": 5432,
+
+        "JWT_KEY": "test"
     }
 }

@@ -35,13 +35,25 @@ git push origin main
 git config --global user.email "you@example.com"
 git config --global user.name "Your Name" */
 
+create table restaurant(
+	id_restaurant serial primary key not null,
+	name varchar(45) not null,
+	localization varchar(255) not null,
+	timeopen time not null,
+	delivery boolean not null,
+	pricedelivery boolean not null
+);
+
 create table products(
 	id_product serial primary key not null,
 	name varchar(45) not null,
 	price float not null,
 	description varchar(255) not null,
+	flavor varchar[255],
 	image varchar(255) not null,
-	stock int not null
+	id_restaurant integer not null,
+	foreign key (id_restaurant) references restaurant (id_restaurant),
+	stock integer not null
 );
 
 create table requests(
@@ -52,12 +64,12 @@ create table requests(
 
 create table requestProduct(
 	id_requestProduct serial primary key not null,
-	id_product serial not null,
-	id_request serial not null,
+	id_product integer not null,
+	id_request integer not null,
 	foreign key (id_product) references products (id_product),
 	foreign key (id_request) references requests (id_request),
 	quantity integer not null,
-	price float not null
+	pricetotal float not null
 );
 
 create table users(
@@ -68,6 +80,8 @@ create table users(
 
 drop table products;
 drop table requests;
+drop table requestProduct;
+drop table users;
 
 INSERT INTO products(name, price, description, image, stock) VALUES ('Coca-Cola', 2.50, 'Refrigerante', 'coca-cola.jpg', 10);
 INSERT INTO products(name, price, description, image, stock) VALUES ('Fanta', 2.50, 'Refrigerante', 'fanta.jpg', 10);

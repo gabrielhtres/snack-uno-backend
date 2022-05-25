@@ -16,7 +16,7 @@ const pool = new Client.Pool(
     }
 )
 
-module.exports = {getAllProducts, insertProduct, deleteProducts, getProductid, createUser}
+module.exports = {getAllProducts, insertProduct, deleteProducts, getProductid, createUser, loginUser}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -113,7 +113,4 @@ async function createUser(user) {
     }
 }
 
-async function loginUser(user) {
-    
-}
 ///////////////////////////////////////////////////////////////////////////////////////////
