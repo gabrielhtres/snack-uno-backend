@@ -1,12 +1,12 @@
 const { table } = require('console')
 const express = require('express')
 const router = express.Router() //router 
-const {createUser, loginUser} = require('../db')
+const database = require('../db')
 
 router.post('/signup', (req, res, next) => {
     (async () => {
         console.log(req.body)
-        req = await createUser(req.body)
+        req = await database.createUser(req.body)
         res.status(200).send({
             message: 'Usuario criado com sucesso'
         })
@@ -15,10 +15,18 @@ router.post('/signup', (req, res, next) => {
 
 router.post('/login', (req, res, next) => {
     (async () => {
-        console.log(req.body)
-        req = await loginUser(req.body)
+        req = await database.loginUser(req.body)
+        login = ''
+        if (req) { 
+            login = 'Login realizado com sucesso'
+            console.log(login)
+        }
+        else {
+            login = 'Login ou senha incorretos'
+            console.log(login)
+        }
         res.status(200).send({
-            message: 'Login ok'
+            message: login
         })
     })()
 })

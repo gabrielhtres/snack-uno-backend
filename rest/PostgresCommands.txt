@@ -50,8 +50,33 @@ drop table product;
 drop table request;
 drop table restaurant;
 
+
+// json product prototype to use at postman and why I writing in english aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaahhhhhhhhhhhhhhhhhhhhhhhh
+{
+    "name": "Espetinho",
+    "price": 10.00,
+    "description": "Espetinho de carne",
+    "flavor": ["Carne", "Cheddar"],
+    "image": "http://www.google.com",
+    "id_restaurant": 1,
+    "stock": 10
+}
+{
+    "name": "Grelhado",
+    "price": 10.00,
+    "description": "Grelhado de carne",
+    "flavor": ["Carne", "Cheddar"],
+    "image": "http://www.google.com",
+    "id_restaurant": 2,
+    "stock": 10
+}
+
 INSERT INTO restaurant(name, localization, openClose, delivery, priceDelivery) VALUES ('Restaurante 1', 'Rua 1', '{03:00, 10:20}', true, 4);
 INSERT INTO restaurant(name, localization, openClose, delivery, priceDelivery) VALUES ('Restaurante 2', 'Rua 2', '{03:00, 10:20}', true, 3);
 
-INSERT INTO product(name, price, description, flavor, image, id_restaurant, stock) VALUES ('Pizza', 10.00, 'Pizza', '{"Cu", "Pica"}', 'pizza.jpg', 1, 10);
-INSERT INTO product(name, price, description, flavor, image, id_restaurant, stock) VALUES ('Pastel', 10.00, 'Pastel', '{"Chocolate", "Morango"}', 'pastel.jpg', 1, 10);
+INSERT INTO product(name, price, description, flavor, image, id_restaurant, stock) 
+    VALUES ('Pizza', 10.00, 'Pizza', '{"Cu", "Pica"}', 'pizza.jpg', 1, 10);
+INSERT INTO product(name, price, description, flavor, image, id_restaurant, stock) 
+    VALUES ('Pastel', 10.00, 'Pastel', '{"Chocolate", "Morango"}', 'pastel.jpg', 1, 10);
+INSERT INTO product(name, price, description, flavor, image, id_restaurant, stock) 
+    VALUES ('Espetinho', 10.00, 'Espetinho', '{"Chocolate", "Morango"}', 'espetinho.jpg', 1, 10);

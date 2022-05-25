@@ -25,7 +25,6 @@ router.get('/:id_product', (req, res, next) => {
 //pronto
 router.post('/', (req, res, next) => {
     (async () => {
-        console.log(req.body)
         req = await database.insertProduct(req.body)
         res.status(200).send({
             message: req
