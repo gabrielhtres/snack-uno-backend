@@ -1,6 +1,5 @@
-const console = require('console')
 const express = require('express')
-const router = express.Router() //router 
+const router = express.Router() 
 const {insertProduct, getAllProducts, deleteProducts, getProductid} = require('../db')
 
 // Pronto
@@ -23,10 +22,10 @@ router.get('/:id_product', (req, res, next) => {
     })()
 })
 
-
+//pronto
 router.post('/', (req, res, next) => {
-
     (async () => {
+        console.log(req.body)
         req = await insertProduct(req.body)
         res.status(200).send({
             message: req

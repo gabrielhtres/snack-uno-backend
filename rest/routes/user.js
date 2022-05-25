@@ -12,4 +12,14 @@ router.post('/register', (req, res, next) => {
     })()
 })
 
+router.post('/login', (req, res, next) => {
+    (async () => {
+        console.log(req.body)
+        req = await loginUser(req.body)
+        res.status(200).send({
+            message: 'Login ok'
+        })
+    })()
+})
+
 module.exports = router

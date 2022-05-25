@@ -19,6 +19,7 @@ const pool = new Client.Pool(
 module.exports = {getAllProducts, insertProduct, deleteProducts, getProductid, createUser, loginUser}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////PRODUCTS////////////////////////////////////////////////////////////
 
 async function getAllProducts() {
     try {
@@ -34,6 +35,7 @@ async function getAllProducts() {
         return await res.rows
     }
 }
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 async function getProductid(id_product) {
@@ -53,13 +55,13 @@ async function getProductid(id_product) {
 
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-async function insertProduct(json) {
+async function insertProduct(product) {
     try {
         console.log('Starting connection with database...')
         await pool.connect()
         console.log('Connection sucessful!')
-        data = `INSERT INTO products (name, price, description, image, id_category) VALUES (
-            '${json.name}', '${json.price}', '${json.description}', '${json.image}', '${json.id_category}'
+        data = `INSERT INTO products (name, price, description, image, id_restaurant, stock) VALUES (
+            '${product.name}', '${product.price}', '${product.description}', '${product.image}', '${product.id_restaurant}', '${product.stock}'
         )`
         pool.query(data)
         console.table('Dados inseridos na tabela products')
@@ -89,7 +91,10 @@ async function deleteProducts(id_product) {
         return await res.rows
     }   
 }
-      
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////USERS////////////////////////////////////////////////////     
+
 async function createUser(user) {
     try {
         if (user == null) {
@@ -105,6 +110,35 @@ async function createUser(user) {
             await pool.query(`INSERT INTO users (email, pass) VALUES ('${user.email}', '${hash}')`)
             console.table('Dados inseridos na tabela users')
         });
+    }catch (error) {
+        console.log(error)
+    }
+    finally{
+        return await res.rows
+    }
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+async function loginUser(user) {
+    try {
+        console.log('Starting connection with database...')
+        await pool.connect()
+        console.log('Connection sucessful!')
+        res = await pool.query(`SELECT * FROM users WHERE email = '${user.email}'`)
+        console.table(res.rows)
+        if (res.rows.length == 0) {
+            return false
+        }
+        bcrypt.compare(user.password, res.rows[0].pass, (err, result) => {
+            if (err) {
+                return console.log(err)
+            }
+            if (result) {
+                return true
+            }
+            return false
+        })
     }catch (error) {
         console.log(error)
     }
