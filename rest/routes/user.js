@@ -1,8 +1,9 @@
+const { table } = require('console')
 const express = require('express')
 const router = express.Router() //router 
 const {createUser} = require('../db')
 
-router.post('/register', (req, res, next) => {
+router.post('/signup', (req, res, next) => {
     (async () => {
         console.log(req.body)
         req = await createUser(req.body)
@@ -10,6 +11,10 @@ router.post('/register', (req, res, next) => {
             message: 'Usuario criado com sucesso'
         })
     })()
+})
+
+router.post('/login', (req, res, next) => {
+    
 })
 
 module.exports = router

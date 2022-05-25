@@ -69,5 +69,4 @@ create table users(
 drop table products;
 drop table requests;
 
-INSERT INTO products(name, price, description, image, stock) VALUES ('Coca-Cola', 2.50, 'Refrigerante', 'coca-cola.jpg', 10);
-INSERT INTO products(name, price, description, image, stock) VALUES ('Fanta', 2.50, 'Refrigerante', 'fanta.jpg', 10);
+INSERT INTO products(name, price, description, image, stock) VALUES ('Coca', 2.50, 'Coca cola', 'coca.jpg', 10);
