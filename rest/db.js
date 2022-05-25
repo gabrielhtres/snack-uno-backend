@@ -6,17 +6,15 @@ const bcrypt = require('bcrypt')
 
 let res = ''
 
-const pool = new Client.Pool(
-    { 
+const pool = new Client.Pool({ 
     user: dbconfig.env.DB_USER,
     password: dbconfig.env.DB_PASSWORD,
     database: dbconfig.env.DB_DATABASE,
     host: dbconfig.env.DB_HOST,
     port: dbconfig.env.DB_PORT
-    }
-)
+})
 
-module.exports = {getAllProducts, insertProduct, deleteProducts, getProductid, createUser, loginUser}
+module.exports = {getAllProducts, insertProduct, deleteProducts, getProductid, createUser, getTable}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////PRODUCTS////////////////////////////////////////////////////////////
@@ -36,6 +34,24 @@ async function getAllProducts() {
     }
 }
 
+<<<<<<< HEAD
+=======
+async function getTable(table) {
+    console.log('Starting connection with database.wadawd..')
+    try {
+        console.log('Starting connection with database...')
+        await pool.connect()
+        console.log('Connection sucessful!')
+        res = await pool.query(`SELECT * FROM ${table}`)
+        console.table(res.rows)
+    }catch (error) {
+        console.log(error)
+    }
+    finally{
+        return await res.rows
+    }
+}
+>>>>>>> 3e6a581fdf448fc6c612e9ecad24dcab4d80eb87
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 async function getProductid(id_product) {
