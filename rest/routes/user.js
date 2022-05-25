@@ -1,7 +1,7 @@
 const { table } = require('console')
 const express = require('express')
 const router = express.Router() //router 
-const {createUser} = require('../db')
+const {createUser, loginUser} = require('../db')
 
 router.post('/signup', (req, res, next) => {
     (async () => {
