@@ -1,0 +1,57 @@
+create table restaurant(
+	id_restaurant serial primary key not null,
+	name varchar(45) not null,
+	localization varchar(255) not null,
+	openClose time[] not null,
+	delivery boolean not null,
+	priceDelivery float not null
+);
+
+create table product(
+	id_product serial primary key not null,
+	name varchar(45) not null,
+	price float not null,
+	description varchar(255) not null,
+	flavor varchar(45)[],
+	image varchar(255) not null,
+	id_restaurant integer not null,
+	foreign key (id_restaurant) references restaurant (id_restaurant),
+	stock integer not null
+);
+
+create table request(
+	id_request serial primary key not null,
+	totalPrice float not null,
+	data timestamp not null
+);
+
+create table requestProduct(
+	id_requestProduct serial primary key not null,
+	id_product integer not null,
+	id_request integer not null,
+	foreign key (id_product) references product (id_product),
+	foreign key (id_request) references request (id_request),
+	quantity integer not null,
+	priceTotal float not null
+);
+
+create table users(
+	id_user serial primary key not null,
+	email varchar(40),
+	pass varchar(100)
+);
+
+select * from restaurant;
+select * from product;
+
+drop table requestProduct;
+drop table user;
+drop table product;
+drop table request;
+drop table restaurant;
+
+INSERT INTO restaurant(name, localization, openClose, delivery, priceDelivery) VALUES ('Restaurante 1', 'Rua 1', '{03:00, 10:20}', true, 4);
+INSERT INTO restaurant(name, localization, openClose, delivery, priceDelivery) VALUES ('Restaurante 2', 'Rua 2', '{03:00, 10:20}', true, 3);
+
+INSERT INTO product(name, price, description, flavor, image, id_restaurant, stock) VALUES ('Pizza', 10.00, 'Pizza', '{"Cu", "Pica"}', 'pizza.jpg', 1, 10);
+INSERT INTO product(name, price, description, flavor, image, id_restaurant, stock) VALUES ('Pastel', 10.00, 'Pastel', '{"Chocolate", "Morango"}', 'pastel.jpg', 1, 10);

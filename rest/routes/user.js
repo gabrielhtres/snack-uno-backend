@@ -14,7 +14,6 @@ router.post('/signup', (req, res, next) => {
 })
 
 router.post('/login', (req, res, next) => {
-<<<<<<< HEAD
     (async () => {
         console.log(req.body)
         req = await loginUser(req.body)
@@ -22,9 +21,6 @@ router.post('/login', (req, res, next) => {
             message: 'Login ok'
         })
     })()
-=======
-    
->>>>>>> 3e6a581fdf448fc6c612e9ecad24dcab4d80eb87
 })
 
 module.exports = router

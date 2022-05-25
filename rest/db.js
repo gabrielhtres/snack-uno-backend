@@ -14,30 +14,11 @@ const pool = new Client.Pool({
     port: dbconfig.env.DB_PORT
 })
 
-module.exports = {getAllProducts, insertProduct, deleteProducts, getProductid, createUser, getTable}
+module.exports = {insertProduct, deleteProducts, createUser, getTable, loginUser, getTableByID}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////PRODUCTS////////////////////////////////////////////////////////////
 
-async function getAllProducts() {
-    try {
-        console.log('Starting connection with database...')
-        await pool.connect()
-        console.log('Connection sucessful!')
-        res = await pool.query("SELECT * FROM products")
-        console.table(res.rows)
-    }catch (error) {
-        console.log(error)
-    }
-    finally{
-        return await res.rows
-    }
-}
-
-<<<<<<< HEAD
-=======
 async function getTable(table) {
-    console.log('Starting connection with database.wadawd..')
     try {
         console.log('Starting connection with database...')
         await pool.connect()
@@ -51,16 +32,14 @@ async function getTable(table) {
         return await res.rows
     }
 }
->>>>>>> 3e6a581fdf448fc6c612e9ecad24dcab4d80eb87
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-async function getProductid(id_product) {
+async function getTableByID(table, id) {
     try {
         console.log('Starting connection with database...')
         await pool.connect()
         console.log('Connection sucessful!')
-        res = await pool.query(`SELECT * FROM products WHERE id_product = $1`, [id_product])
-        console.table(res.rows) 
+        res = await pool.query(`SELECT * FROM ${table} WHERE id_${table} = $1`, [id])
+        console.table(res.rows)
     }catch (error) {
         console.log(error)
     }
@@ -76,12 +55,12 @@ async function insertProduct(product) {
         console.log('Starting connection with database...')
         await pool.connect()
         console.log('Connection sucessful!')
-        data = `INSERT INTO products (name, price, description, image, id_restaurant, stock) VALUES (
+        data = `INSERT INTO product (name, price, description, image, id_restaurant, stock) VALUES (
             '${product.name}', '${product.price}', '${product.description}', '${product.image}', '${product.id_restaurant}', '${product.stock}'
         )`
         pool.query(data)
         console.table('Dados inseridos na tabela products')
-        console.log(getAllProducts())
+        console.log(getTable('product'))
     }catch (error) {
         console.log(error)
     }
@@ -97,9 +76,9 @@ async function deleteProducts(id_product) {
         console.log('Starting connection with database...')
         await pool.connect()
         console.log('Connection sucessful!')
-        await pool.query(`DELETE FROM products WHERE id_product = $1`, [id_product])
+        await pool.query(`DELETE FROM product WHERE id_product = $1`, [id_product])
         console.table('Data deleted from products')
-        console.log(getAllProducts())
+        console.log(getTable('product'))
     }catch (error) {
         console.log(error)
     }

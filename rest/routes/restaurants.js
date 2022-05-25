@@ -1,14 +1,23 @@
-const console = require('console')
 const express = require('express')
 const router = express.Router()
-const {getTable} = require('../db')
+const database = require('../db')
 
 router.get('/', (req, res, next) => {
     (async () => {
-        console.log("PEga todos os produtos")
-        req = await getTable('products')
+        req = await database.getTable('restaurant')
         res.status(200).send({
             message: req
         })
     })()
 })
+
+router.get('/:id_restaurant', (req, res, next) => {
+    (async () => {
+        req = await database.getTableByID('restaurant', req.params.id_restaurant)
+        res.status(200).send({
+            message: req
+        })
+    })()
+})
+
+module.exports = router
