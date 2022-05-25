@@ -37,10 +37,10 @@ git config --global user.name "Your Name" */
 
 {
 	"email": "roberto@EduardoLangner",
-	"password": "123456"
+	"password": "123456789"
 }
 
 {
 	"email": "junior@EduardoLangner",
-	"password": "naosei"
+	"password": "csharpehmelhor"
 }

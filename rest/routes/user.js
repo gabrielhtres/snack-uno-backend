@@ -16,15 +16,8 @@ router.post('/signup', (req, res, next) => {
 router.post('/login', (req, res, next) => {
     (async () => {
         req = await database.loginUser(req.body)
-        login = ''
-        if (req) { 
-            login = 'Login realizado com sucesso'
-            console.log(login)
-        }
-        else {
-            login = 'Login ou senha incorretos'
-            console.log(login)
-        }
+        req ? login = 'Usuario logado com sucesso' : login = 'Senha ou email incorretos'
+        console.log(login)
         res.status(200).send({
             message: login
         })

@@ -129,28 +129,25 @@ async function createUser(user) {
 
 async function loginUser(user) {
     try {
+        canConnect = false
         console.log('Starting connection with database...')
         await pool.connect()
         console.log('Connection sucessful!')
         res = await pool.query(`SELECT * FROM users WHERE email = '${user.email}'`)
         console.table(res.rows)
-        if (res.rows.length == 0) {
-            return false
+        if (res.rows.length == 0 || user.email != res.rows[0].email) {
+            console.log('Email inexistente'+user.email)
+            canConnect = false
+            return
         }
-        console.log(res.rows[0].pass)
-        console.log(user.password)
-        bcrypt.compare(user.password, res.rows[0].pass, (err, result) => {
-            if (err) {
-                console.log(err)
-                return false
-            }
-            if (result) {
-                return true
-            }
-            return false
-        })
-    }catch (error) {
+        canConnect = await bcrypt.compare(user.password, res.rows[0].pass)
+        
+    } catch (error) {
         console.log(error)
+    }
+    finally {
+        console.log("eh o q "+canConnect)
+        return await canConnect
     }
 }
 

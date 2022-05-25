@@ -43,9 +43,14 @@ create table users(
 
 select * from restaurant;
 select * from product;
+select * from request;
+select * from requestProduct;
+select * from users;
+
+DELETE FROM users WHERE id_user >= 1;
 
 drop table requestProduct;
-drop table user;
+drop table users;
 drop table product;
 drop table request;
 drop table restaurant;
