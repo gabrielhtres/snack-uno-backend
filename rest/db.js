@@ -20,7 +20,7 @@ module.exports = {insertProduct, deleteProducts, createUser, getTable, loginUser
 
 async function getTable(table) {
     try {
-        console.log('Starting connection with database...')
+        console.log('\nStarting connection with database...')
         await pool.connect()
         console.log('Connection sucessful!')
         res = await pool.query(`SELECT * FROM ${table}`)
@@ -35,7 +35,7 @@ async function getTable(table) {
 
 async function getTableByID(table, id) {
     try {
-        console.log('Starting connection with database...')
+        console.log('\nStarting connection with database...')
         await pool.connect()
         console.log('Connection sucessful!')
         res = await pool.query(`SELECT * FROM ${table} WHERE id_${table} = $1`, [id])
@@ -63,7 +63,7 @@ async function getTableByID(table, id) {
 
 async function insertProduct(product) {
     try {
-        console.log('Starting connection with database...')
+        console.log('\nStarting connection with database...')
         await pool.connect()
         console.log('Connection sucessful!')
         data = `INSERT INTO product (name, price, description, flavor, image, id_restaurant, stock) VALUES (
@@ -84,7 +84,7 @@ async function insertProduct(product) {
 
 async function deleteProducts(id_product) {
     try {
-        console.log('Starting connection with database...')
+        console.log('\nStarting connection with database...')
         await pool.connect()
         console.log('Connection sucessful!')
         await pool.query(`DELETE FROM product WHERE id_product = $1`, [id_product])
@@ -106,18 +106,17 @@ async function createUser(user) {
         if (user == null) {
             return
         }
-        console.log('Starting connection with database...')
+        console.log('\nStarting connection with database...')
         await pool.connect()
         console.log('Connection sucessful!')
-        console.log(user.password)
         bcrypt.hash(user.password, 5, async (err, hash) => {
             if (err) {
-                return console.log(err)
+                return res.status(500).send(err)
             }
             await pool.query(`INSERT INTO users (email, pass) VALUES ('${user.email}', '${hash}')`)
         });
     }catch (error) {
-        console.log(error)
+        return res.status(500).send(error)
     }
     finally{
         console.table('Dados inseridos na tabela users')
@@ -130,23 +129,21 @@ async function createUser(user) {
 async function loginUser(user) {
     try {
         canConnect = false
-        console.log('Starting connection with database...')
+        console.log('\nStarting connection with database...')
         await pool.connect()
         console.log('Connection sucessful!')
         res = await pool.query(`SELECT * FROM users WHERE email = '${user.email}'`)
         console.table(res.rows)
         if (res.rows.length == 0 || user.email != res.rows[0].email) {
-            console.log('Email inexistente'+user.email)
             canConnect = false
             return
         }
         canConnect = await bcrypt.compare(user.password, res.rows[0].pass)
-        
     } catch (error) {
-        console.log(error)
+        return res.status(401).send(error)
     }
     finally {
-        console.log("eh o q "+canConnect)
+        console.log(canConnect)
         return await canConnect
     }
 }
