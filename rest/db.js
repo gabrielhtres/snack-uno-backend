@@ -124,25 +124,28 @@ dotenv.config();
 process.env.TOKEN_SECRET;
 async function loginUser(user) {
     try {
+        let canLogin = false
         console.log('\nStarting connection with database...')
         await pool.connect()
         console.log('Connection sucessful!')
         res = await pool.query(`SELECT * FROM users WHERE email = '${user.email}'`)
         console.table(res.rows)
-        console.log(res.rows[0].password)
-        console.log(user.password)
-        bcrypt.compare(user.password, res.rows[0].password, (err, result) => {
-            if(result) {
-                const id = res.rows[0].id_user
-                token = jwt.sign({ id }, process.env.TOKEN_SECRET, { 
-                    expiresIn: '1h'
-                });
-                console.log(token)
-                return 201
-            }
-        }) 
+        canLogin = await bcrypt.compare(user.password, res.rows[0].password)
+        if(canLogin) 
+        {
+            const id = res.rows[0].id_user
+            token =  jwt.sign({ id }, process.env.TOKEN_SECRET, { 
+                expiresIn: '1h'
+            });
+            console.log(token)
+        }
+        canLogin ? console.log('Login successful!') : console.log('Login failed!')
+        if (canLogin) 
+            return 201
+        else 
+            return 401
     } catch (error) {
-        return 401
+        return 501
     }
 }
 

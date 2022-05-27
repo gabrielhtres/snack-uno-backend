@@ -16,7 +16,7 @@ router.post('/signup', (req, res, next) => {
 router.post('/login', (req, res, next) => {
     (async () => {
         req = await database.loginUser(req.body)
-        res.status(200).send({
+        res.status(req).send({
             message: req
         })
     })()
