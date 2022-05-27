@@ -37,8 +37,8 @@ create table requestProduct(
 
 create table users(
 	id_user serial primary key not null,
-	email varchar(40),
-	pass varchar(100)
+	email varchar(40) not null unique,
+	pass varchar(100) not null
 );
 
 select * from restaurant;

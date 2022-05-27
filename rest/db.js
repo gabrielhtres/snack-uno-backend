@@ -109,18 +109,14 @@ async function createUser(user) {
         console.log('\nStarting connection with database...')
         await pool.connect()
         console.log('Connection sucessful!')
-        bcrypt.hash(user.password, 5, async (err, hash) => {
-            if (err) {
-                return res.status(500).send(err)
-            }
-            await pool.query(`INSERT INTO users (email, pass) VALUES ('${user.email}', '${hash}')`)
-        });
-    }catch (error) {
-        return res.status(500).send(error)
-    }
-    finally{
-        console.table('Dados inseridos na tabela users')
-        return await res.rows
+        hash = await bcrypt.hash(user.password, 10)
+        await pool.query(`INSERT INTO users (email, pass) VALUES ('${user.email}', '${hash}')`)
+        return 201
+
+    } catch (error) {
+        console.log("oiiiii")
+        console.log(error)
+        return 406
     }
 }
 
@@ -139,12 +135,9 @@ async function loginUser(user) {
             return
         }
         canConnect = await bcrypt.compare(user.password, res.rows[0].pass)
+        return 200
     } catch (error) {
-        return res.status(401).send(error)
-    }
-    finally {
-        console.log(canConnect)
-        return await canConnect
+        return 401
     }
 }
 
