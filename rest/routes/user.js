@@ -7,8 +7,8 @@ router.post('/signup', (req, res, next) => {
     (async () => {
         console.log(req.body)
         req = await database.createUser(req.body)
-        res.status(200).send({
-            message: 'Usuario criado com sucesso'
+        res.status(req).send({
+            message: req
         })
     })()
 })

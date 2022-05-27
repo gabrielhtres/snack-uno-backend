@@ -123,6 +123,7 @@ async function createUser(user) {
     }
 }
 
+
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 async function loginUser(user) {
@@ -155,11 +156,7 @@ async function loginUser(user) {
             }
         }) 
     } catch (error) {
-        return res.status(401).send(error)
-    }
-    finally {
-        console.log(canConnect)
-        return await canConnect
+        return 401
     }
 }
 
