@@ -16,15 +16,9 @@ router.post('/signup', (req, res, next) => {
 router.post('/login', (req, res, next) => {
     (async () => {
         req = await database.loginUser(req.body)
-        if(req){
-            res.status(200).send({
-                message: 'Usuario logado com sucesso'
-            })
-        }else{
-            res.status(401).send({
-                message: 'Usuario não encontrado'
-            })
-        }
+        res.status(200).send({
+            message: req
+        })
     })()
 })
 

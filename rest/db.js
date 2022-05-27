@@ -4,6 +4,10 @@ const Client = require('pg')
 const dbconfig = require ('./nodemon.json')
 const bcrypt = require('bcrypt')
 
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+
+
 let res = ''
 
 const pool = new Client.Pool({ 
@@ -103,56 +107,38 @@ async function deleteProducts(id_product) {
 
 async function createUser(user) {
     try {
-        if (user == null) {
-            return 
-        }
         console.log('\nStarting connection with database...')
         await pool.connect()
         console.log('Connection sucessful!')
-        bcrypt.hash(user.password, 10, async (err, hash) => {
-            if (err) {
-                return res.status(500).send(err)
-            }
-            else {
-                console.log(user.password)
-                await pool.query(`INSERT INTO users (email, pass) VALUES ('${user.email}', '${hash}')`)
-            }
-        })
-    }catch (error){
-        return res.status(500).send(error)
+        hash = await bcrypt.hash(user.password, 10)
+        await pool.query(`INSERT INTO users (email, password) VALUES ('${user.email}', '${hash}')`)
+        return 201    
+    } catch (error){
+        return 500
     }
 }
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
-
+dotenv.config();
+process.env.TOKEN_SECRET;
 async function loginUser(user) {
     try {
-        canConnect = false
         console.log('\nStarting connection with database...')
         await pool.connect()
         console.log('Connection sucessful!')
         res = await pool.query(`SELECT * FROM users WHERE email = '${user.email}'`)
         console.table(res.rows)
-        console.log('foi')
-        canConnect = await bcrypt.compare(user.password, res.rows[0].pass, (err, result) => {
-            console.log(canConnect)
+        console.log(res.rows[0].password)
+        console.log(user.password)
+        bcrypt.compare(user.password, res.rows[0].password, (err, result) => {
             if(result) {
-                console.log('entrou')
-                // create  token
-                const token = jwt.sign({ 
-                    id: res.rows[0].id_user,
-                    email: res.rows[0].email,
-                },
-                dbconfig.env.JWT_KEY,
-                {
-                    expiresIn: '12h'
-                })
+                const id = res.rows[0].id_user
+                token = jwt.sign({ id }, process.env.TOKEN_SECRET, { 
+                    expiresIn: '1h'
+                });
                 console.log(token)
-                return res.status(200).send({
-                    message: 'Login successful',
-                    token: token
-                })
+                return 201
             }
         }) 
     } catch (error) {
