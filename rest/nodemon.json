@@ -5,6 +5,6 @@
         "DB_DATABASE": "SnackUnoDB",
         "DB_HOST": "localhost",
         "DB_PORT": 5432,
-        "JWT_KEY": "test"
+        "JWT_KEY": "secret"
     }
 }

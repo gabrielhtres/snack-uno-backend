@@ -104,23 +104,22 @@ async function deleteProducts(id_product) {
 async function createUser(user) {
     try {
         if (user == null) {
-            return
+            return 
         }
         console.log('\nStarting connection with database...')
         await pool.connect()
         console.log('Connection sucessful!')
-        bcrypt.hash(user.password, 5, async (err, hash) => {
+        bcrypt.hash(user.password, 10, async (err, hash) => {
             if (err) {
                 return res.status(500).send(err)
             }
-            await pool.query(`INSERT INTO users (email, pass) VALUES ('${user.email}', '${hash}')`)
-        });
-    }catch (error) {
+            else {
+                console.log(user.password)
+                await pool.query(`INSERT INTO users (email, pass) VALUES ('${user.email}', '${hash}')`)
+            }
+        })
+    }catch (error){
         return res.status(500).send(error)
-    }
-    finally{
-        console.table('Dados inseridos na tabela users')
-        return await res.rows
     }
 }
 
@@ -134,11 +133,27 @@ async function loginUser(user) {
         console.log('Connection sucessful!')
         res = await pool.query(`SELECT * FROM users WHERE email = '${user.email}'`)
         console.table(res.rows)
-        if (res.rows.length == 0 || user.email != res.rows[0].email) {
-            canConnect = false
-            return
-        }
-        canConnect = await bcrypt.compare(user.password, res.rows[0].pass)
+        console.log('foi')
+        canConnect = await bcrypt.compare(user.password, res.rows[0].pass, (err, result) => {
+            console.log(canConnect)
+            if(result) {
+                console.log('entrou')
+                // create  token
+                const token = jwt.sign({ 
+                    id: res.rows[0].id_user,
+                    email: res.rows[0].email,
+                },
+                dbconfig.env.JWT_KEY,
+                {
+                    expiresIn: '12h'
+                })
+                console.log(token)
+                return res.status(200).send({
+                    message: 'Login successful',
+                    token: token
+                })
+            }
+        }) 
     } catch (error) {
         return res.status(401).send(error)
     }
