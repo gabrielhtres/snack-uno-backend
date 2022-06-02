@@ -111,7 +111,7 @@ async function createUser(user) {
         await pool.connect()
         console.log('Connection sucessful!')
         hash = await bcrypt.hash(user.password, 10)
-        await pool.query(`INSERT INTO users (email, password) VALUES ('${user.email}', '${hash}')`)
+        await pool.query(`INSERT INTO users (email, pass) VALUES ('${user.email}', '${hash}')`)
         return 201    
     } catch (error){
         return 500
@@ -130,11 +130,11 @@ async function loginUser(user) {
         console.log('Connection sucessful!')
         res = await pool.query(`SELECT * FROM users WHERE email = '${user.email}'`)
         console.table(res.rows)
-        canLogin = await bcrypt.compare(user.password, res.rows[0].password)
+        canLogin = await bcrypt.compare(user.password, res.rows[0].pass)
         if(canLogin) 
         {
-            const id = res.rows[0].id_user
-            token =  jwt.sign({ id }, process.env.TOKEN_SECRET, { 
+            const email = res.rows[0].email
+            token =  jwt.sign({ email }, process.env.TOKEN_SECRET, { 
                 expiresIn: '1h'
             });
             console.log(token)
