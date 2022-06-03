@@ -2,11 +2,6 @@ const { query } = require('express');
 const { default: knex } = require('knex');
 const Client = require('pg')
 const dbconfig = require ('./nodemon.json')
-const bcrypt = require('bcrypt')
-
-const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
-
 
 let res = ''
 
@@ -18,7 +13,7 @@ const pool = new Client.Pool({
     port: dbconfig.env.DB_PORT
 })
 
-module.exports = {insertProduct, deleteProducts, createUser, getTable, loginUser, getTableByID}
+module.exports = {insertProduct, deleteProducts, getTable, getTableByID, getUser, insertUser}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -53,17 +48,6 @@ async function getTableByID(table, id) {
 }
 
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////
-// create table product(
-// 	id_product serial primary key not null,
-// 	name varchar(45) not null,
-// 	price float not null,
-// 	description varchar(255) not null,
-// 	flavor varchar(45)[],
-// 	image varchar(255) not null,
-// 	id_restaurant integer not null,
-// 	foreign key (id_restaurant) references restaurant (id_restaurant),
-// 	stock integer not null
-// );
 
 async function insertProduct(product) {
     try {
@@ -103,50 +87,27 @@ async function deleteProducts(id_product) {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////USERS////////////////////////////////////////////////////     
 
-async function createUser(user) {
+async function getUser(user){
     try {
-        console.log('\nStarting connection with database...')
         await pool.connect()
-        console.log('Connection sucessful!')
-        hash = await bcrypt.hash(user.password, 10)
+        console.log('\nConnection sucessful!')
+        res = await pool.query(`SELECT * FROM users WHERE email = '${user.email}'`)
+        console.table(res.rows)
+        return res.rows[0]
+    }catch (error) {
+        console.log(error)
+    }
+
+} 
+
+async function insertUser(user){
+    try {
+        await pool.connect()
+        console.log('\nConnection sucessful!')
         await pool.query(`INSERT INTO users (email, pass) VALUES ('${user.email}', '${hash}')`)
-        return 201    
-    } catch (error){
+        return 201
+    }catch (error) {
         return 500
     }
 }
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-dotenv.config();
-process.env.TOKEN_SECRET;
-async function loginUser(user) {
-    try {
-        let canLogin = false
-        console.log('\nStarting connection with database...')
-        await pool.connect()
-        console.log('Connection sucessful!')
-        res = await pool.query(`SELECT * FROM users WHERE email = '${user.email}'`)
-        console.table(res.rows)
-        canLogin = await bcrypt.compare(user.password, res.rows[0].pass)
-        if(canLogin) 
-        {
-            const email = res.rows[0].email
-            token =  jwt.sign({ email }, process.env.TOKEN_SECRET, { 
-                expiresIn: '1h'
-            });
-            console.log(token)
-        }
-        canLogin ? console.log('Login successful!') : console.log('Login failed!')
-        if (canLogin) 
-            return 201
-        else 
-            return 401
-    } catch (error) {
-        return 501
-    }
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////

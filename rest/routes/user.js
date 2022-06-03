@@ -1,12 +1,13 @@
 const { table } = require('console')
 const express = require('express')
 const router = express.Router() //router 
-const database = require('../db')
+const login = require('../auth/login')
+const signup = require('../auth/signup')
 
 router.post('/signup', (req, res, next) => {
     (async () => {
         console.log(req.body)
-        req = await database.createUser(req.body)
+        req = await signup.createUser(req.body)
         res.status(req).send({
             message: req
         })
@@ -15,7 +16,7 @@ router.post('/signup', (req, res, next) => {
 
 router.post('/login', (req, res, next) => {
     (async () => {
-        req = await database.loginUser(req.body)
+        req = await login.loginUser(req.body)
         res.status(req).send({
             message: req
         })
