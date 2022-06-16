@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router() 
 const database = require('../db')
+const jwtAuth = require('../middleware/jwtAuth')
 
 // Pronto
 router.get('/', (req, res, next) => {
@@ -23,7 +24,7 @@ router.get('/:id_product', (req, res, next) => {
 })
 
 //pronto
-router.post('/', (req, res, next) => {
+router.post('/', jwtAuth, (req, res, next) => {
     (async () => {
         req = await database.insertProduct(req.body)
         res.status(200).send({
@@ -33,7 +34,7 @@ router.post('/', (req, res, next) => {
 })
 
 // Pronto
-router.delete('/:id_product', (req, res, next ) => {
+router.delete('/:id_product', jwtAuth, (req, res, next ) => {
     (async () => {
         req = await database.deleteProducts(req.params.id_product)
         res.status(200).send({

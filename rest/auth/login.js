@@ -10,14 +10,14 @@ async function loginUser(user) {
     try {
         let canLogin = false
         let res = await db.getUser(user)
-        canLogin = await bcrypt.compare(user.password, res.pass)
+        canLogin = await bcrypt.compare(user.password, res.password)
         if(canLogin) 
         {
             const email = res.email
             token =  jwt.sign({ email }, process.env.TOKEN_SECRET, { 
                 expiresIn: '1h'
             });
-            console.log(token)
+            console.log("Token: " + token)
         }
         canLogin ? console.log('Login successful!') : console.log('Login failed!')
         if (canLogin) 

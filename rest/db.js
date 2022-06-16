@@ -91,7 +91,7 @@ async function deleteProducts(id_product) {
 async function getUser(user){
     try {
         await pool.connect()
-        console.log('\nConnection sucessful!')
+        console.log('Connection sucessful!')
         res = await pool.query(`SELECT * FROM users WHERE email = '${user.email}'`)
         console.table(res.rows)
         return res.rows[0]
@@ -105,7 +105,7 @@ async function insertUser(user){
     try {
         await pool.connect()
         console.log('\nConnection sucessful!')
-        await pool.query(`INSERT INTO users (email, pass) VALUES ('${user.email}', '${hash}')`)
+        await pool.query(`INSERT INTO users (email, password) VALUES ('${user.email}', '${hash}')`)
         return 201
     }catch (error) {
         return 500

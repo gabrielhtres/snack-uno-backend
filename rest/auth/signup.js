@@ -5,11 +5,11 @@ const bcrypt = require('bcrypt')
 async function createUser(user) {
     try {
         hash = await bcrypt.hash(user.password, 10)
-        res = db.insertUser(user)
+        res = await db.insertUser(user)
         return res    
     } catch (error){
         return 500
     }
 }
 
-module.exports = {createUser}
+module.exports = {createUser}   
