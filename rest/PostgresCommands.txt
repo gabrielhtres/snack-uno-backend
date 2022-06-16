@@ -22,7 +22,8 @@ create table product(
 create table request(
 	id_request serial primary key not null,
 	totalPrice float not null,
-	data timestamp not null
+	data timestamp not null,
+	status_request varchar(45) not null
 );
 
 create table requestProduct(
@@ -37,8 +38,12 @@ create table requestProduct(
 
 create table users(
 	id_user serial primary key not null,
+	name varchar(45) not null,
+	cpf varchar(45) not null,
+	data_birth date not null,
+	telephone varchar(45) not null,
 	email varchar(40) not null unique,
-	password varchar(100) not null
+	password varchar(100) not nulle
 );
 
 select * from restaurant;
@@ -66,15 +71,21 @@ drop table restaurant;
     "id_restaurant": 1,
     "stock": 10
 }
+
+// json create user prototype 
 {
-    "name": "Grelhado",
-    "price": 10.00,
-    "description": "Grelhado de carne",
-    "flavor": ["Carne", "Cheddar"],
-    "image": "http://www.google.com",
-    "id_restaurant": 2,
-    "stock": 10
+	"name": "Eduardo Langner",
+	"cpf": "123456789",
+	"data_birth": "01/01/1990",
+	"telephone": "123456789"
+	"email": "test5",
+	"password": "test5"
 }
+
+// json login usser prototype
+    "email": "test5",
+	"password": "test5"
+
 
 INSERT INTO restaurant(name, localization, openClose, delivery, priceDelivery) VALUES ('Restaurante 1', 'Rua 1', '{03:00, 10:20}', true, 4);
 INSERT INTO restaurant(name, localization, openClose, delivery, priceDelivery) VALUES ('Restaurante 2', 'Rua 2', '{03:00, 10:20}', true, 3);

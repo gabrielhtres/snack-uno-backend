@@ -20,10 +20,7 @@ async function loginUser(user) {
             console.log("Token: " + token)
         }
         canLogin ? console.log('Login successful!') : console.log('Login failed!')
-        if (canLogin) 
-            return 201
-        else 
-            return 401
+        return canLogin ? 201 : 401
     } catch (error) {
         return 501
     }
