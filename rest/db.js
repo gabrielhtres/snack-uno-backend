@@ -72,7 +72,7 @@ async function insertProduct(product) {
 
 async function deleteProducts(id_product) {
     try {
-        console.log('\nSta  rting connection with database...')
+        console.log('\nStarting connection with database...')
         await pool.connect()
         console.log('Connection sucessful!')
         await pool.query(`DELETE FROM product WHERE id_product = $1`, [id_product])
@@ -98,17 +98,17 @@ async function getUser(user){
     }catch (error) {
         console.log(error)
     }
-
 } 
 
 async function insertUser(user){
     try {
         await pool.connect()
         console.log('\nConnection sucessful!')
-        await pool.query(`INSERT INTO users (name, cpf, data_birth, telephone, email, password) VALUES (
-            '${user.name}', '${user.cpf}', '${user.data_birth}', '${user.telephone}', '${user.email}', '${hash}')`)
+        await pool.query(`INSERT INTO users (name, cpf, data_birth, telephone, email, password) VALUES 
+        ('${user.name}', '${user.cpf}', '${user.data_birth}', '${user.telephone}', '${user.email}', '${hash}')`)
         return 201
     }catch (error) {
+        console.log(error)
         return 500
     }
 }

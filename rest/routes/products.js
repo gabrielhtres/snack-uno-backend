@@ -24,7 +24,7 @@ router.get('/:id_product', (req, res, next) => {
 })
 
 //pronto
-router.post('/', jwtAuth, (req, res, next) => {
+router.post('/', (req, res, next) => {
     (async () => {
         req = await database.insertProduct(req.body)
         res.status(200).send({
