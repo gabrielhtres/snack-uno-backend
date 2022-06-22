@@ -6,10 +6,12 @@ const routeProducts = require('./routes/products')
 const routeRestaurants = require('./routes/restaurants')
 const routeCreateUser = require('./routes/users') 
 const requests = require('./routes/requests')
+const cors = require('cors')
 
 app.use(morgan('dev')) //para fazer o log das requisicoes
 app.use(bodyParser.urlencoded ({ extended: false })) //para fazer apenas requisicoes com dados simples  
 app.use(bodyParser.json()) //aceita apenas json
+app.use(cors())
 
 app.use('/products', routeProducts) //rota para produtos
 app.use('/restaurants', routeRestaurants) //rota para restaurantes
