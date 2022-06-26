@@ -20,4 +20,13 @@ router.get('/:id_restaurant', (req, res, next) => {
     })()
 })
 
+router.post('/', (req, res, next) => {
+    (async () => {
+        req = await database.insertRestaurant(req.body)
+        res.status(200).send({
+            message: req
+        })
+    })()
+})
+
 module.exports = router

@@ -13,7 +13,7 @@ const pool = new Client.Pool({
     port: dbconfig.env.DB_PORT
 })
 
-module.exports = {insertProduct, deleteProducts, getTable, getTableByID, getUser, insertUser}
+module.exports = {insertProduct, deleteProducts, getTable, getTableByID, getUser, insertUser, insertRestaurant}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -67,6 +67,26 @@ async function insertProduct(product) {
         return await getTable('product')
     } 
 }
+
+async function insertRestaurant(restaurant) {
+    try {
+        console.log('\nStarting connection with database...')
+        await pool.connect()
+        console.log('Connection sucessful!')
+        let data = `INSERT INTO restaurant (nameRestaurant, localization, openClose, delivery, priceDelivery) VALUES (
+            '${restaurant.nameRestaurant}', ${restaurant.localization}, '${restaurant.openClose}', '{${restaurant.delivery}}',
+            '${restaurant.priceDelivery}'
+        )`
+        await pool.query(data)
+    }catch (error) {
+        console.log(error)
+    }
+    finally{
+        console.table('Dados inseridos na tabela restaurant')
+        return await getTable('restaurant')
+    } 
+}
+
 
 //////////////////////////////////////////////////////////////////////////////////////////
 

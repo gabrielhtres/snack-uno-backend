@@ -1,6 +1,6 @@
 create table restaurant(
 	id_restaurant serial primary key not null,
-	name varchar(45) not null,
+	nameRestaurant varchar(45) not null,
 	localization varchar(255) not null,
 	openClose time[] not null,
 	delivery boolean not null,
