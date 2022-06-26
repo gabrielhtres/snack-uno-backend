@@ -13,7 +13,7 @@ const pool = new Client.Pool({
     port: dbconfig.env.DB_PORT
 })
 
-module.exports = {insertProduct, deleteProducts, getTable, getTableByID, getUser, insertUser, insertRestaurant}
+module.exports = {insertProduct, deleteProducts, getTable, getTableByID, getUser, insertUser, insertRestaurant, deleteRestaurants}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -98,6 +98,22 @@ async function deleteProducts(id_product) {
         await pool.query(`DELETE FROM product WHERE id_product = $1`, [id_product])
         console.table('Data deleted from products')
         console.log(getTable('product'))
+    }catch (error) {
+        console.log(error)
+    }
+    finally{
+        return await res.rows
+    }   
+}
+
+async function deleteRestaurants(id_restaurant) {
+    try {
+        console.log('\nStarting connection with database...')
+        await pool.connect()
+        console.log('Connection sucessful!')
+        await pool.query(`DELETE FROM restaurant WHERE id_restaurant = $1`, [id_restaurant])
+        console.table('Data deleted from restaurant')
+        console.log(getTable('restaurant'))
     }catch (error) {
         console.log(error)
     }
