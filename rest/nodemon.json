@@ -1,7 +1,7 @@
 {
     "env":{
         "DB_USER": "postgres",
-        "DB_PASSWORD": "postgres",
+        "DB_PASSWORD": "root",
         "DB_DATABASE": "SnackUnoDB",
         "DB_HOST": "snack-uno-db.ccx4onen5meq.us-east-1.rds.amazonaws.com",
         "DB_PORT": 5432
