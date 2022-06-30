@@ -30,7 +30,7 @@ router.post('/', (req, res, next) => {
 })
 
 // Pronto
-router.delete('/:id_restaurant', jwtAuth, (req, res, next ) => {
+router.delete('/:id_restaurant', (req, res, next ) => {
     (async () => {
         req = await database.deleteRestaurants(req.params.id_restaurant)
         res.status(200).send({
