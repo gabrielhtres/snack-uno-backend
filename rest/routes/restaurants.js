@@ -39,4 +39,15 @@ router.delete('/:id_restaurant', (req, res, next ) => {
     })()
 })
 
+router.get('/restaurant_product/:id_restaurant', (req, res, next) => {
+    (async () => {
+        console.log('rota e');
+        req = await database.getProductsByRestaurantId(req.params.id_restaurant)
+        res.status(200).send({
+            message: req
+        })
+    })()
+})
+
+
 module.exports = router

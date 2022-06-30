@@ -43,4 +43,5 @@ router.delete('/:id_product', jwtAuth, (req, res, next ) => {
     })()
 })
 
+
 module.exports = router

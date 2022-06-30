@@ -13,7 +13,7 @@ const pool = new Client.Pool({
     port: dbconfig.env.DB_PORT
 })
 
-module.exports = {insertProduct, deleteProducts, getTable, getTableByID, getUser, insertUser, insertRestaurant, deleteRestaurants}
+module.exports = {insertProduct, deleteProducts, getTable, getTableByID, getUser, insertUser, insertRestaurant, deleteRestaurants, getProductsByRestaurantId}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -39,8 +39,8 @@ async function getProductsByRestaurantId(id_restaurant)
         console.log('\nStarting connection with database...')
         await pool.connect()
         console.log('Connection sucessful!')
-        res = await pool.query(`SELECT * FROM ${table} WHERE id_${table} = $1`, [id])
-        'SELECT r.* FROM restaurant as r'
+        res = await pool.query(`select p.* from product as p
+        inner join restaurant as r on (p.id_restaurant = r.id_restaurant) where p.id_restaurant = $1`, [id_restaurant])
         console.table(res.rows)
     }catch (error) {
         console.log(error)
@@ -72,7 +72,7 @@ async function insertProduct(product) {
     try {
         console.log('\nStarting connection with database...')
         await pool.connect()
-        console.log('Connection sucessful!')
+        console.log('ConngetTableByIDection sucessful!')
         data = `INSERT INTO product (name, price, description, flavor, image, id_restaurant, stock) VALUES (
             '${product.name}', ${product.price}, '${product.description}', '{${product.flavor}}',
             '${product.image}', ${product.id_restaurant}, ${product.stock}
