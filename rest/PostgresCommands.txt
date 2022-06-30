@@ -64,12 +64,12 @@ select * from users;
 
 DELETE FROM users WHERE id_user >= 1;
 
-drop table requestProduct;
+drop table creditcards;
 drop table users;
-drop table product;
+drop table requestProduct;
 drop table request;
+drop table product;
 drop table restaurant;
-
 
 // json product prototype to use at postman and why I writing in english aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaahhhhhhhhhhhhhhhhhhhhhhhh
 {

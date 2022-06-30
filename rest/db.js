@@ -32,6 +32,25 @@ async function getTable(table) {
     }
 }
 
+// rota que procure todos produtos pelo id do restaurante
+async function getProductsByRestaurantId(id_restaurant)
+{
+    try {
+        console.log('\nStarting connection with database...')
+        await pool.connect()
+        console.log('Connection sucessful!')
+        res = await pool.query(`SELECT * FROM ${table} WHERE id_${table} = $1`, [id])
+        'SELECT r.* FROM restaurant as r'
+        console.table(res.rows)
+    }catch (error) {
+        console.log(error)
+    }
+    finally{
+        return await res.rows
+    }
+}
+
+
 async function getTableByID(table, id) {
     try {
         console.log('\nStarting connection with database...')
