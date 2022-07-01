@@ -1,0 +1,2 @@
+INSERT INTO restaurant(nameRestaurant, localization, openClose, delivery, priceDelivery) VALUES ('Restaurante 1', 'Rua 1', '{03:00, 10:20}', true, 4);
+INSERT INTO restaurant(nameRestaurant, localization, openClose, delivery, priceDelivery) VALUES ('Restaurante 2', 'Rua 2', '{03:00, 10:20}', true, 3);

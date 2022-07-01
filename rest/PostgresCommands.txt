@@ -73,7 +73,7 @@ drop table request;
 drop table product;
 drop table restaurant;
 
-// json product prototype to use at postman and why I writing in english aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaahhhhhhhhhhhhhhhhhhhhhhhh
+// json product prototype to use
 {INSERT INTO request(totalPrice, data, status_request) VALUES (10.00, '01/01/2020', 'Pendente');
     "description": "Espetinho de carne",
     "flavor": ["Carne", "Cheddar"],
@@ -117,9 +117,6 @@ drop table restaurant;
 
 INSERT INTO users(name, cpf, data_birth, telephone, email, password)
 values('Eduardo', '0443049239048', '02/05/1992', '747347838724', 'eduardo@gmail', 'gostodobolsonaro');
-
-INSERT INTO restaurant(nameRestaurant, localization, openClose, delivery, priceDelivery) VALUES ('Restaurante 1', 'Rua 1', '{03:00, 10:20}', true, 4);
-INSERT INTO restaurant(nameRestaurant, localization, openClose, delivery, priceDelivery) VALUES ('Restaurante 2', 'Rua 2', '{03:00, 10:20}', true, 3);
 
 INSERT INTO request(totalPrice, data, status_request) VALUES (10.00, '01/01/2020', 'Pendente');
 
