@@ -44,7 +44,10 @@ async function getTableByID(table, id)
     console.log('\nStarting connection with database...')
     await pool.connect()
     console.log('Connection sucessful!')
-    let query = await pool.query(`SELECT * FROM ${table} WHERE id_${table} = $1`, [id])
+    let id_table
+    table == 'users' ? id_table = 'user' : id_table = table
+    let sql = `SELECT * FROM ${table} WHERE id_${id_table} = $1`
+    let query = await pool.query(sql, [id])
     return query.rows
 }
 
@@ -132,8 +135,8 @@ async function insertRequestProduct(requestProduct)
         if (query.rowCount < 1) return false
         // sql = `UPDATE product SET stock = stock - $1 WHERE id_product = $2`
         // query = await pool.query(sql, [quantity, id_product])
-        sql = `UPDATE request SET totalPrice = totalPrice + $1 WHERE id_request = $2`
-        query = await pool.query(sql, [priceTotal, id_request])
+        // sql = `UPDATE request SET totalPrice = totalPrice + $1 WHERE id_request = $2`
+        // query = await pool.query(sql, [priceTotal, id_request])
     }
     return query.rowCount >= 1;
 }

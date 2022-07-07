@@ -19,10 +19,7 @@ async function loginUser(params)
             expiresIn: '1h'
         });
         console.log("Token: " + token)
-        return {
-            email: user.email,
-            password: token
-        }
+        return await db.getTableByID('users', user.id_user)
     }
     return canLogin
 }
