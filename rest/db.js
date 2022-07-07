@@ -12,7 +12,9 @@ const pool = new Client.Pool({
 })
 
 module.exports = {insertProduct, deleteProducts, getTable, getTableByID, getUserLogin, insertUser, insertRestaurant, 
-    deleteRestaurants, getProductsByRestaurantId, alterUser, getUserById, deleteRequests, insertRequest}
+    deleteRestaurants, getProductsByRestaurantId, alterUser, getUserById, deleteRequests, insertRequest,
+    insertRequestProduct
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -97,7 +99,12 @@ async function deleteRestaurants(id_restaurant)
     console.log('\nStarting connection with database...')
     await pool.connect()
     console.log('Connection sucessful!')
-    let query = await pool.query(`DELETE FROM restaurant WHERE id_restaurant = $1`, [id_restaurant])
+    let restaurant = await getTableByID('restaurant', id_restaurant)
+    if(restaurant[0] == undefined){
+        return false
+    }
+    await pool.query(`DELETE FROM product WHERE id_restaurant = $1;`, [id_restaurant])
+    let query = await pool.query(`DELETE FROM restaurant WHERE id_restaurant = $1;`, [id_restaurant])
     return query.rowCount == 1
 }
 
@@ -111,13 +118,35 @@ async function deleteRequests(id_request)
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
+async function insertRequestProduct(requestProduct)
+{
+    await pool.connect()
+    console.log('Connection sucessful!')
+    let length = Object.keys(requestProduct).length
+    let query
+    for (let i = 0; i < length; i++) 
+    {
+        let {id_product, id_request, quantity, priceTotal} = requestProduct[i]
+        let sql = `INSERT INTO requestProduct (id_product, id_request, quantity, priceTotal) VALUES ($1, $2, $3, $4);`
+        query = await pool.query(sql, [id_product, id_request, quantity, priceTotal])
+        if (query.rowCount < 1) return false
+        // sql = `UPDATE product SET stock = stock - $1 WHERE id_product = $2`
+        // query = await pool.query(sql, [quantity, id_product])
+        sql = `UPDATE request SET totalPrice = totalPrice + $1 WHERE id_request = $2`
+        query = await pool.query(sql, [priceTotal, id_request])
+    }
+    return query.rowCount >= 1;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
 async function getUserLogin(params)
 {
     await pool.connect()
     console.log('Connection sucessful!')
     let sql = `SELECT * FROM users WHERE email = $1`
     let user = await pool.query(sql, [params.email])
-    return user.rows[0]
+    return user.rows[0] == undefined ? false : user.rows[0]
 } 
 
 async function insertUser(params)

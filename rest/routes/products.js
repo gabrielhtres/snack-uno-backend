@@ -46,5 +46,4 @@ router.delete('/:id_product', async (req, res, next ) => {
         res.status(500).send({ error });
     }
 })
-
 module.exports = router

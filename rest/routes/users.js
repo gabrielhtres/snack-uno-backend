@@ -16,7 +16,7 @@ router.post('/signup', async (req, res, next) => {
 router.post('/login', async (req, res, next) => {
     try {
         let user = await login.loginUser(req.body)
-        res.status(200).send(user)
+        user ? res.status(200).send(user) : res.status(401).send('Usuario ou senha incorretos')
     } catch (error) {
         res.status(500).send('Erro ao logar usuario')
     }

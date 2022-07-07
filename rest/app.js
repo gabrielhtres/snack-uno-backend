@@ -6,6 +6,7 @@ const routeProducts = require('./routes/products')
 const routeRestaurants = require('./routes/restaurants')
 const routeCreateUser = require('./routes/users') 
 const requests = require('./routes/requests')
+const requestProducts = require('./routes/requestProducts')
 const cors = require('cors')
 
 app.use(morgan('dev')) //para fazer o log das requisicoes
@@ -17,6 +18,7 @@ app.use('/products', routeProducts) //rota para produtos
 app.use('/restaurants', routeRestaurants) //rota para restaurantes
 app.use('/users', routeCreateUser) //rota para criar usuario
 app.use('/requests', requests) //rota para requisicoes
+app.use('/requestProducts', requestProducts) //rota para pedidos
 
 app.use((req, res, next) => { //caso nenhuma rota seja estabelecida
     const error = new Error('Not found')

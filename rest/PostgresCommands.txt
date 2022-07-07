@@ -103,6 +103,14 @@ drop table restaurant;
 	"priceDelivery": 10.00
 }
 
+// json create requestProduct prototype
+{
+	"id_product": 1,
+	"id_request": 1,
+	"quantity": 1,
+	"priceTotal": 10.00
+}
+
 // json create request prototype
 {
 	"totalPrice": 10.00,
@@ -132,4 +140,8 @@ INSERT INTO product(name, price, description, flavor, image, id_restaurant, stoc
 INSERT INTO product(name, price, description, flavor, image, id_restaurant, stock) 
     VALUES ('Pastel', 10.00, 'Pastel', '{"Chocolate", "Morango"}', 'pastel.jpg', 1, 10);
 INSERT INTO product(name, price, description, flavor, image, id_restaurant, stock) 
-    VALUES ('Espetinho', 10.00, 'Espetinho', '{"Chocolate", "Morango"}', 'espetinho.jpg', 1, 10);
+    VALUES ('Espetinho', 10.00, 'Espetinho', '{"Chocolate", "Morango"}', 'espetinho.jpg', 2, 10);
+
+
+INSERT INTO requestProduct(id_product, id_request, quantity, priceTotal)
+values(1, 1, 1, 10.00);
