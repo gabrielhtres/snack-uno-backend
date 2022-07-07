@@ -1,15 +1,10 @@
-
 const db = require('../db')
 const bcrypt = require('bcrypt')
 
-async function createUser(user) {
-    try {
-        hash = await bcrypt.hash(user.password, 10)
-        res = await db.insertUser(user)
-        return res    
-    } catch (error){
-        return 500
-    }
+async function createUser(params) {
+    let hash = await bcrypt.hash(params.password, 10)
+    params.password = hash
+    await db.insertUser(params)
+    return hash
 }
-
 module.exports = {createUser}   

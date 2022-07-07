@@ -6,24 +6,21 @@ const db = require('../db')
 dotenv.config();
 process.env.TOKEN_SECRET;
 
-async function loginUser(user) {
-    try {
-        let canLogin = false
-        let res = await db.getUser(user)
-        canLogin = await bcrypt.compare(user.password, res.password)
-        if(canLogin) 
-        {
-            const email = res.email
-            token =  jwt.sign({ email }, process.env.TOKEN_SECRET, { 
-                expiresIn: '1h'
-            });
-            console.log("Token: " + token)
-        }
-        canLogin ? console.log('Login successful!') : console.log('Login failed!')
-        return canLogin ? 201 : 401
-    } catch (error) {
-        return 501
+async function loginUser(params) {
+   
+    let canLogin = false
+    let user = await db.getUserLogin(params)
+    let token
+    canLogin = await bcrypt.compare(params.password, user.password)
+    if(canLogin) 
+    {
+        const email = user.email
+        token =  jwt.sign({ email }, process.env.TOKEN_SECRET, { 
+            expiresIn: '1h'
+        });
+        console.log("Token: " + token)
     }
+    return token
 }
 
 module.exports = {loginUser}

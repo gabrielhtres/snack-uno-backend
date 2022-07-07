@@ -1,3 +1,13 @@
+create table users(
+	id_user serial primary key not null,
+	name varchar(45) not null,
+	cpf varchar(45) not null,
+	data_birth date not null,
+	telephone varchar(45) not null,
+	email varchar(40) not null unique,
+	password varchar(100) not null
+);
+
 create table restaurant(
 	id_restaurant serial primary key not null,
 	nameRestaurant varchar(45) not null,
@@ -38,16 +48,6 @@ create table requestProduct(
 	priceTotal float not null
 );
 
-create table users(
-	id_user serial primary key not null,
-	name varchar(45) not null,
-	cpf varchar(45) not null,
-	data_birth date not null,
-	telephone varchar(45) not null,
-	email varchar(40) not null unique,
-	password varchar(100) not null
-);
-
 create table creditCards(
     id_creditCard integer not null primary key unique,
     name varchar(60),
@@ -74,7 +74,9 @@ drop table product;
 drop table restaurant;
 
 // json product prototype to use
-{INSERT INTO request(totalPrice, data, status_request) VALUES (10.00, '01/01/2020', 'Pendente');
+{
+    "name": "Carne",
+    "price": 10,
     "description": "Espetinho de carne",
     "flavor": ["Carne", "Cheddar"],
     "image": "http://www.google.com",
@@ -96,7 +98,7 @@ drop table restaurant;
 {
 	"nameRestaurant": "Restaurante Teste",
 	"localization": "Rua Teste, 123",
-	"openClose": {03:00, 10:20},
+	"openClose": "{03:00, 10:20}",
 	"delivery": true,
 	"priceDelivery": 10.00
 }
@@ -105,7 +107,8 @@ drop table restaurant;
 {
 	"totalPrice": 10.00,
 	"data": "01/01/2020",
-	"status_request": "Pendente"
+	"status_request": "Pendente",
+	"id_user": 1
 }
 
 // json login usser prototype
@@ -115,10 +118,14 @@ drop table restaurant;
 }
 
 
+INSERT INTO restaurant(nameRestaurant, localization, openClose, delivery, priceDelivery) 
+VALUES ('Restaurante Teste', 'Rua Teste, 123', '{03:00, 10:20}', true, 10.00);
+
 INSERT INTO users(name, cpf, data_birth, telephone, email, password)
 values('Eduardo', '0443049239048', '02/05/1992', '747347838724', 'eduardo@gmail', 'gostodobolsonaro');
 
-INSERT INTO request(totalPrice, data, status_request) VALUES (10.00, '01/01/2020', 'Pendente');
+INSERT INTO request(totalPrice, data, status_request, id_user)
+values(10.00, '01/01/2020', 'Pendente', 1);
 
 INSERT INTO product(name, price, description, flavor, image, id_restaurant, stock) 
     VALUES ('Pizza', 10.00, 'Pizza', '{"Cu", "Pica"}', 'pizza.jpg', 1, 10);
